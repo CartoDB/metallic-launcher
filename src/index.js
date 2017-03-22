@@ -7,6 +7,8 @@ import UncaughtExceptionListener from './uncaught-exception-listener'
 import UnhandledRejectionListener from './unhandled-rejection-listener'
 import Launcher from './launcher'
 
+export { LEADER, SERVER } from './cluster/role'
+
 export default class LauncherFactory extends FactoryInterface {
   static create (metrics, logger, options) {
     const target = ClusterFactory.create(metrics, logger, options)

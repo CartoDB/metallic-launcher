@@ -3,6 +3,7 @@ import { RunnerInterface } from 'metallic-interfaces'
 import LoggerFactory from 'metallic-logger'
 import MetricsFactory from 'metallic-metrics'
 import LauncherFactory from '../../src'
+import { LEADER, SERVER } from '../../src'
 
 describe('launcher-factory', function () {
   it('.create() should return a Runner instance', function () {
@@ -11,5 +12,10 @@ describe('launcher-factory', function () {
     const launcher = LauncherFactory.create(metrics, logger)
 
     assert.ok(launcher instanceof RunnerInterface)
+  })
+
+  it('should export roles', function () {
+    assert.ok(typeof LEADER === 'symbol')
+    assert.ok(typeof SERVER === 'symbol')
   })
 })
