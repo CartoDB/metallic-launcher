@@ -8,7 +8,7 @@ describe('cluster-factory', function () {
   it('.create() should return a Runner instance', function () {
     const logger = LoggerFactory.create({ name: 'wadus', enabled: false })
     const metrics = MetricsFactory.create(logger)
-    const cluster = ClusterFactory.create(metrics, logger, )
+    const cluster = ClusterFactory.create(metrics, logger, { enabled: false })
 
     assert.ok(cluster instanceof RunnerInterface)
   })

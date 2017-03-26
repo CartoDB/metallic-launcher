@@ -2,8 +2,7 @@ import assert from 'assert'
 import { RunnerInterface } from 'metallic-interfaces'
 import LoggerFactory from 'metallic-logger'
 import MetricsFactory from 'metallic-metrics'
-import LauncherFactory from '../../src'
-import { Role, LEADER, SERVER } from '../../src'
+import LauncherFactory, { Role, LEADER, SERVER } from '../../src'
 
 describe('launcher-factory', function () {
   it('.create() should return a Runner instance', function () {
