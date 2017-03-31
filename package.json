@@ -42,17 +42,17 @@
     "test:watch": "npm run test -- -w"
   },
   "devDependencies": {
-    "babel-cli": "^6.23.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.23.0",
+    "babel-cli": "^6.24.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0",
     "istanbul": "^0.4.5",
     "metallic-interfaces": "^0.1.0",
     "metallic-listeners": "^0.1.0",
-    "metallic-logger": "^0.3.2",
+    "metallic-logger": "^0.3.3",
     "metallic-metrics": "^0.1.0",
     "mocha": "^3.2.0",
-    "sinon": "^1.17.7",
-    "source-map-support": "^0.4.11",
-    "standard": "^9.0.1"
+    "sinon": "^2.1.0",
+    "source-map-support": "^0.4.14",
+    "standard": "^9.0.2"
   },
   "standard": {
     "env": {
