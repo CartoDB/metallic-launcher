@@ -44,6 +44,7 @@
   "devDependencies": {
     "babel-cli": "^6.24.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "istanbul": "^0.4.5",
     "metallic-interfaces": "^0.1.0",
     "metallic-listeners": "^0.1.0",
