@@ -1,5 +1,11 @@
 # Metallic Launcher ChangeLog
 
+## v0.4.0 (2017-04-06)
+
+ - Upgrade dev-dependencies
+ - Fix issue while passing options to metallic-app
+
+
 ## v0.3.0 (2017-03-24)
 
  - Expose Role module
