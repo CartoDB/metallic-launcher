@@ -1,7 +1,7 @@
 import { AbstractClassError, UnimplementedError } from 'metallic-errors'
-import { RunnerInterface } from 'metallic-interfaces'
+import LauncherInterface from '../launcher-interface'
 
-export default class ClusterInterface extends RunnerInterface {
+export default class ClusterInterface extends LauncherInterface {
   constructor () {
     if (new.target === ClusterInterface) {
       throw new AbstractClassError(ClusterInterface.name)

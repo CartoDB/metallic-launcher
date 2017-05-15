@@ -1,32 +1,31 @@
 import assert from 'assert'
 import sinon from 'sinon'
 import EventEmitter from 'events'
-import { LoggerInterface } from 'metallic-logger'
+import { ListenerInterface } from 'metallic-listeners'
 import SigintListener from '../../src/sigint-listener'
-
-class Logger extends LoggerInterface {}
 
 describe('sigint-listener', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create()
 
     this.emitter = new EventEmitter()
-    this.logger = new Logger()
-    this.sigintListener = new SigintListener(this.emitter, this.logger)
+    this.sigintListener = new SigintListener(this.emitter)
   })
 
   afterEach(function () {
     this.sandbox.restore()
   })
 
-  it('.listen() should attach listener to SIGINT process event', function () {
-    this.logger.debug = this.sandbox.spy()
+  it(`should implement a ${ListenerInterface.name}`, function () {
+    assert.ok(this.sigintListener instanceof ListenerInterface)
+  })
+
+  it('.listen() should attach listener to SIGINT emitter', function () {
     const listenerSpy = this.sandbox.spy()
 
     this.sigintListener.listen(listenerSpy)
     this.emitter.emit('SIGINT')
 
-    assert.ok(this.logger.debug.called)
     assert.ok(listenerSpy.calledOnce)
   })
 })

@@ -10,7 +10,8 @@ export default class ServerFactory extends FactoryInterface {
     }
     const port = options.port
     const httpServer = HttpServerFactory.create(metrics, logger, { port })
-    return new Server(httpServer, logger)
+
+    return new Server(httpServer)
   }
 
   static shouldCreate (clusterOn) {

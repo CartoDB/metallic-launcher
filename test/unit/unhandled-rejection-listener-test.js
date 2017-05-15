@@ -2,6 +2,7 @@ import assert from 'assert'
 import sinon from 'sinon'
 import EventEmitter from 'events'
 import { LoggerInterface } from 'metallic-logger'
+import { ListenerInterface } from 'metallic-listeners'
 import UnhandledRejectionListener from '../../src/unhandled-rejection-listener'
 
 class Logger extends LoggerInterface {}
@@ -19,22 +20,19 @@ describe('unhandled-rejection-listener', function () {
     this.sandbox.restore()
   })
 
-  it('.listen() should attach listener to uncaughtException process event', function (done) {
-    this.logger.error = this.sandbox.spy()
-    this.logger.debug = this.sandbox.spy()
+  it(`should implement ${ListenerInterface.name}`, function () {
+    assert.ok(this.unhandledRejectionListener instanceof ListenerInterface)
+  })
 
-    var error = new Error('Irrelevant error')
+  it('.listen() should attach listener to uncaughtException to emitter', function () {
+    const handlerSpy = this.sandbox.spy()
+
+    var error = new Error('wadus error')
     var rejectedPromise = Promise.reject(error)
 
-    this.unhandledRejectionListener.listen()
+    this.unhandledRejectionListener.listen(handlerSpy)
     this.emitter.emit('unhandledRejection', error, rejectedPromise)
 
-    process.nextTick(function () {
-      assert.ok(this.logger.error.calledOnce)
-      assert.ok(this.logger.debug.calledOnce)
-
-      process.removeAllListeners('unhandledRejection')
-      done()
-    }.bind(this))
+    assert.ok(handlerSpy.withArgs(error, rejectedPromise).calledOnce)
   })
 })

@@ -1,10 +1,9 @@
-import { RunnerInterface } from 'metallic-interfaces'
+import LauncherInterface from './launcher-interface'
 
-export default class Launcher extends RunnerInterface {
-  constructor (target, processExitListeners) {
+export default class Launcher extends LauncherInterface {
+  constructor (target) {
     super()
     this.target = target
-    this.processExitListeners = processExitListeners
   }
 
   get app () {
@@ -16,12 +15,10 @@ export default class Launcher extends RunnerInterface {
   }
 
   run () {
-    this.processExitListeners.listen(failure => this.exit(failure))
     return this.target.run()
   }
 
   close () {
-    this.processExitListeners.remove()
     return this.target.close()
   }
 
