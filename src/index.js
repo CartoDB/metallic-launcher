@@ -39,18 +39,25 @@ export default class LauncherFactory extends FactoryInterface {
       LauncherUncaughtExceptionListenerMixin.mix(
         LauncherExitSignalListenerMixin.mix(
           LauncherUnhandledRejectionListenerMixin.mix(
-            LauncherLoggerMixin.mix(Launcher)
+            logger ? LauncherLoggerMixin.mix(Launcher) : Launcher
           )
         )
       )
     )
 
-    return new LauncherOnSteroids(
+    const launcherArgs = logger ? [
       uncaughtExceptionListeners,
       exitSignalListeners,
       unhandledRejectionListeners,
       logger,
       target
-    )
+    ] : [
+      uncaughtExceptionListeners,
+      exitSignalListeners,
+      unhandledRejectionListeners,
+      target
+    ]
+
+    return new LauncherOnSteroids(...launcherArgs)
   }
 }
