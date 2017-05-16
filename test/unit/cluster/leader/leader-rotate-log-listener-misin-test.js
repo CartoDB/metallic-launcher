@@ -40,7 +40,7 @@ describe('leader-rotate-log-listener-mixin', function () {
 
     await this.leader.run()
     this.emitter.emit('SIGUSR2')
-    await new Promise(resolve => process.nextTick(resolve))
+    await new Promise(resolve => resolve())
 
     assert.ok(launcherReforkSpy.calledOnce)
   })

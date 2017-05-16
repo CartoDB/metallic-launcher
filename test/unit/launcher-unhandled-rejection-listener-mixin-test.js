@@ -37,17 +37,28 @@ describe('launcher-unhandled-rejection-listener-mixin', function () {
     assert.ok(this.launcher instanceof LauncherInterface)
   })
 
-  it('should fail if supperclass has no logger', function () {
-    const WadusLauncher = LauncherUnhandledRejectionListenerMixin.mix(Launcher)
-    assert.throws(() => new WadusLauncher(this.listener), TypeError)
-  })
-
   it('.run() should attach listener', async function () {
     const listernerListenSpy = this.sandbox.spy(this.listener, 'listen')
 
     await this.launcher.run()
 
     assert.ok(listernerListenSpy.calledOnce)
+  })
+
+  it('.run() should exit the process when "unhandledRejection" has been emitted', async function () {
+    const EventedLauncher = LauncherUnhandledRejectionListenerMixin.mix(Launcher)
+
+    const launcher = new EventedLauncher(this.listener)
+    const launcherExitStub = this.sandbox.stub(launcher, 'exit')
+
+    const error = new Error('wadus')
+    const rejectedPromise = new Promise((resolve, reject) => reject(error))
+
+    await launcher.run()
+    this.emitter.emit('unhandledRejection', error, rejectedPromise)
+    await new Promise(resolve => resolve())
+
+    assert.ok(launcherExitStub.calledWithExactly(1))
   })
 
   it('.run() should log the error when "unhandledRejection" has been emitted', async function () {
@@ -57,7 +68,7 @@ describe('launcher-unhandled-rejection-listener-mixin', function () {
 
     await this.launcher.run()
     this.emitter.emit('unhandledRejection', error, rejectedPromise)
-    await new Promise(resolve => process.nextTick(resolve))
+    await new Promise(resolve => resolve())
 
     assert.ok(loggerErrorStub.calledOnce)
   })

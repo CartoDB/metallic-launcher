@@ -19,19 +19,21 @@ export default class LauncherFactory extends FactoryInterface {
   static create (metrics, logger, options) {
     const target = ClusterFactory.create(metrics, logger, options)
 
-    const LoggedSigintListener = ListenerLoggerMixin.mix(SigintListener)
-    const LoggedSigtermListener = ListenerLoggerMixin.mix(SigtermListener)
+    const listenerArgs = logger ? [ logger, process ] : [ process ]
+    const Sigint = logger ? ListenerLoggerMixin.mix(SigintListener) : SigintListener
+    const Sigterm = logger ? ListenerLoggerMixin.mix(SigtermListener) : SigtermListener
+
     const exitSignalListeners = new Listeners()
-      .add(new LoggedSigintListener(logger, process))
-      .add(new LoggedSigtermListener(logger, process))
+      .add(new Sigint(...listenerArgs))
+      .add(new Sigterm(...listenerArgs))
 
-    const LoggedUncaughtExceptionListener = ListenerLoggerMixin.mix(UncaughtExceptionListener)
+    const UncaughtException = logger ? ListenerLoggerMixin.mix(UncaughtExceptionListener) : UncaughtExceptionListener
     const uncaughtExceptionListeners = new Listeners()
-      .add(new LoggedUncaughtExceptionListener(logger, process))
+      .add(new UncaughtException(...listenerArgs))
 
-    const LoggedUnhandledRejectionListener = ListenerLoggerMixin.mix(UnhandledRejectionListener)
+    const UnhandledRejection = logger ? ListenerLoggerMixin.mix(UnhandledRejectionListener) : UnhandledRejectionListener
     const unhandledRejectionListeners = new Listeners()
-      .add(new LoggedUnhandledRejectionListener(logger, process))
+      .add(new UnhandledRejection(...listenerArgs))
 
     const LauncherOnSteroids = LauncherExitOnErrorMixin.mix(
       LauncherUncaughtExceptionListenerMixin.mix(
@@ -42,6 +44,7 @@ export default class LauncherFactory extends FactoryInterface {
         )
       )
     )
+
     return new LauncherOnSteroids(
       uncaughtExceptionListeners,
       exitSignalListeners,

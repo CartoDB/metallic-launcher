@@ -4,15 +4,16 @@ export default class LauncherUnhandledRejectionListenerMixin {
       constructor (logUnhandledRejectionListener, ...args) {
         super(...args)
         this.logUnhandledRejectionListener = logUnhandledRejectionListener
-
-        if (!this.logger || typeof this.logger.log !== 'function') {
-          throw new TypeError(`A logger bound to ${superclass.name} is required to use ${LauncherUnhandledRejectionListenerMixin.name}`)
-        }
       }
 
       run () {
         this.logUnhandledRejectionListener.listen((reason, promise) => {
-          promise.catch(err => this.logger.error('Unhandled promise rejection:', err))
+          promise.catch(err => {
+            if (this.logger) {
+              this.logger.error('Unhandled promise rejection:', err)
+            }
+            this.exit(1)
+          })
         })
         return super.run()
       }

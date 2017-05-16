@@ -40,7 +40,7 @@ describe('launcher-exit-signal-listener-mixin', function () {
 
     await this.launcher.run()
     this.emitter.emit('SIGINT', error)
-    await new Promise(resolve => process.nextTick(resolve))
+    await new Promise(resolve => resolve())
 
     assert.ok(launcherExitSpy.calledOnce)
   })

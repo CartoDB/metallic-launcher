@@ -40,7 +40,7 @@ describe('leader-exit-signal-listener-mixin', function () {
 
     await this.leader.run()
     this.emitter.emit('SIGHUP')
-    await new Promise(resolve => process.nextTick(resolve))
+    await new Promise(resolve => resolve())
 
     assert.ok(launcherRebootSpy.calledOnce)
   })
