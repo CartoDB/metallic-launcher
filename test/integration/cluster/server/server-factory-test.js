@@ -2,7 +2,7 @@ import assert from 'assert'
 import LoggerFactory from 'metallic-logger'
 import MetricsFactory from 'metallic-metrics'
 import { RunnerInterface } from 'metallic-interfaces'
-import ServerFactory from '../../../../src/cluster/server/server-factory'
+import ServerFactory from '../../../../src/cluster/server'
 
 describe('server-factory', function () {
   it('.create() should return a Runner instance', function () {

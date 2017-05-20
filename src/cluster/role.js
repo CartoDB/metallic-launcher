@@ -6,9 +6,7 @@ export const SERVER = Symbol('server')
 
 export default class Role {
   constructor () {
-    if (new.target === Role) {
-      throw new AbstractClassError(Role.name)
-    }
+    throw new AbstractClassError(Role.name)
   }
 
   static isLeader (clusterOn) {

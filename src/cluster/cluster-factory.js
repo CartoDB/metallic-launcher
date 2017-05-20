@@ -1,6 +1,6 @@
 import { FactoryInterface } from 'metallic-interfaces'
-import ServerFactory from './server/server-factory'
-import LeaderFactory from './leader/leader-factory'
+import ServerFactory from './server'
+import LeaderFactory from './leader'
 
 const ClusterClassFactories = new Set([ LeaderFactory, ServerFactory ])
 

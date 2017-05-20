@@ -2,6 +2,10 @@ import assert from 'assert'
 import Role, { LEADER, SERVER } from '../../../src/cluster/role'
 
 describe('role', function () {
+  it('should fail when creates an instance of Role', function () {
+    assert.throws(() => new Role())
+  })
+
   it('.isLeader(!clusterOn) should return false', function () {
     const clusterOn = false
     const isLeader = Role.isLeader(clusterOn)
