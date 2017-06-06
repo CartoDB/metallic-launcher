@@ -26,7 +26,6 @@
   "dependencies": {
     "metallic-app": "^0.5.0",
     "metallic-errors": "^0.1.1",
-    "metallic-interfaces": "^0.2.0",
     "metallic-listeners": "^0.3.0"
   },
   "scripts": {
