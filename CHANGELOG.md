@@ -1,5 +1,13 @@
 # Metallic Launcher ChangeLog
 
+## v0.6.0 (2017-06-06)
+
+ - Upgrade metallic dependencies
+ - Add packege-lock.json
+ - Migrate from instanbul to nyc for code coverage
+ - Make use of logger optional
+
+
 ## v0.5.0 (2017-04-09)
 
  - Upgrade dependencies
