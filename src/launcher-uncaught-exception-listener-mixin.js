@@ -6,19 +6,20 @@ export default class LauncherUncaughtExceptionListenerMixin {
         this.uncaughtExceptionListeners = uncaughtExceptionListeners
       }
 
-      run () {
+      async run () {
         this.uncaughtExceptionListeners.listen(() => this.exit(1))
-        return super.run()
+        const httpServer = await super.run()
+        return httpServer
       }
 
-      close () {
+      async close () {
         this.uncaughtExceptionListeners.remove()
-        return super.close()
+        await super.close()
       }
 
-      exit (failure = 0) {
+      async exit (failure = 0) {
         this.uncaughtExceptionListeners.remove()
-        return super.exit(failure)
+        await super.exit(failure)
       }
     }
   }

@@ -6,19 +6,19 @@ export default class LeaderRebootListenerMixin {
         this.rebootListeners = rebootListeners
       }
 
-      run () {
+      async run () {
         this.rebootListeners.listen(() => this.reboot())
-        return super.run()
+        await super.run()
       }
 
-      close () {
+      async close () {
         this.rebootListeners.remove()
-        return super.close()
+        await super.close()
       }
 
-      exit (failure = 0) {
+      async exit (failure = 0) {
         this.rebootListeners.remove()
-        return super.exit(failure)
+        await super.exit(failure)
       }
     }
   }

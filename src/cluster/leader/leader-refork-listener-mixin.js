@@ -6,19 +6,19 @@ export default class LeaderReforkListenerMixin {
         this.reforkListeners = reforkListeners
       }
 
-      run () {
+      async run () {
         this.reforkListeners.listen((server, code) => this.refork(server, code))
-        return super.run()
+        await super.run()
       }
 
-      close () {
+      async close () {
         this.reforkListeners.remove()
-        return super.close()
+        await super.close()
       }
 
-      exit (failure = 0) {
+      async exit (failure = 0) {
         this.reforkListeners.remove()
-        return super.exit(failure)
+        await super.exit(failure)
       }
     }
   }

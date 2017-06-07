@@ -31,7 +31,7 @@ export default class Leader extends LeaderInterface {
     process.exit(0)
   }
 
-  exit (failure = 0) {
+  async exit (failure = 0) {
     process.exit(failure)
   }
 

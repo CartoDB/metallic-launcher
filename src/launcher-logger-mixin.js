@@ -8,8 +8,9 @@ export default class LauncherLoggerMixin {
 
       async run () {
         try {
-          await super.run()
+          const httpServer = await super.run()
           this.logger.info('Ready')
+          return httpServer
         } catch (err) {
           this.logger.error('Failed on initialization', err)
           throw err
@@ -26,9 +27,9 @@ export default class LauncherLoggerMixin {
         }
       }
 
-      exit (failure) {
+      async exit (failure) {
         this.logger.info(`Exit with code ${failure}`)
-        super.exit(failure)
+        await super.exit(failure)
       }
     }
   }

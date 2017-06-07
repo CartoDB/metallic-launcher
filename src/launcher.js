@@ -14,15 +14,16 @@ export default class Launcher extends LauncherInterface {
     return this.target.role
   }
 
-  run () {
-    return this.target.run()
+  async run () {
+    const httpServer = await this.target.run()
+    return httpServer
   }
 
-  close () {
+  async close () {
     return this.target.close()
   }
 
-  exit (failure) {
+  async exit (failure) {
     return this.target.exit(failure)
   }
 }

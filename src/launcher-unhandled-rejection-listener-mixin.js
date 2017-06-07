@@ -6,7 +6,7 @@ export default class LauncherUnhandledRejectionListenerMixin {
         this.logUnhandledRejectionListener = logUnhandledRejectionListener
       }
 
-      run () {
+      async run () {
         this.logUnhandledRejectionListener.listen((reason, promise) => {
           promise.catch(err => {
             if (this.logger) {
@@ -15,17 +15,18 @@ export default class LauncherUnhandledRejectionListenerMixin {
             this.exit(1)
           })
         })
-        return super.run()
+        const httpServer = await super.run()
+        return httpServer
       }
 
-      close () {
+      async close () {
         this.logUnhandledRejectionListener.remove()
-        return super.close()
+        await super.close()
       }
 
-      exit (failure = 0) {
+      async exit (failure = 0) {
         this.logUnhandledRejectionListener.remove()
-        return super.exit(failure)
+        await super.exit(failure)
       }
     }
   }

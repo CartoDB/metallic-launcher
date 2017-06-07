@@ -6,19 +6,19 @@ export default class LeaderRotateLogListenerMixin {
         this.rotateLogListeners = rotateLogListeners
       }
 
-      run () {
+      async run () {
         this.rotateLogListeners.listen(() => this.rotateLog())
-        return super.run()
+        await super.run()
       }
 
-      close () {
+      async close () {
         this.rotateLogListeners.remove()
-        return super.close()
+        await super.close()
       }
 
-      exit (failure = 0) {
+      async exit (failure = 0) {
         this.rotateLogListeners.remove()
-        return super.exit(failure)
+        await super.exit(failure)
       }
     }
   }

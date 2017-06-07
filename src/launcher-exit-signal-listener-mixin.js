@@ -6,19 +6,20 @@ export default class LauncherExitSignalListenerMixin {
         this.exitListeners = exitListeners
       }
 
-      run () {
+      async run () {
         this.exitListeners.listen(() => this.exit(0))
-        return super.run()
+        const httpServer = await super.run()
+        return httpServer
       }
 
-      close () {
+      async close () {
         this.exitListeners.remove()
-        return super.close()
+        await super.close()
       }
 
-      exit (failure = 0) {
+      async exit (failure = 0) {
         this.exitListeners.remove()
-        return super.exit(failure)
+        await super.exit(failure)
       }
     }
   }

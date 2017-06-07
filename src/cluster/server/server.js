@@ -20,8 +20,8 @@ export default class Server extends ClusterInterface {
   }
 
   async run () {
-    const listener = await this.httpServer.run()
-    return listener
+    const httpServer = await this.httpServer.run()
+    return httpServer
   }
 
   async close () {
