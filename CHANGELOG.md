@@ -1,5 +1,10 @@
 # Metallic Launcher ChangeLog
 
+## v0.6.1 (2017-06-07)
+
+ - Make all runner interface's implementations asyncrhonous
+
+
 ## v0.6.0 (2017-06-06)
 
  - Upgrade metallic dependencies
