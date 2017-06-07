@@ -1,6 +1,6 @@
 {
   "name": "metallic-launcher",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Service launcher for metallic",
   "main": "lib/index.js",
   "repository": {
