@@ -1,8 +1,8 @@
 export default class LauncherUncaughtExceptionListenerMixin {
   static mix (superclass) {
     return class extends superclass {
-      constructor (uncaughtExceptionListeners, ...args) {
-        super(...args)
+      constructor ({ uncaughtExceptionListeners }) {
+        super(...arguments)
         this.uncaughtExceptionListeners = uncaughtExceptionListeners
       }
 

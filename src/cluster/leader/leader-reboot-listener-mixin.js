@@ -1,8 +1,8 @@
 export default class LeaderRebootListenerMixin {
   static mix (superclass) {
     return class extends superclass {
-      constructor (rebootListeners, ...args) {
-        super(...args)
+      constructor ({ rebootListeners }) {
+        super(...arguments)
         this.rebootListeners = rebootListeners
       }
 

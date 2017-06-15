@@ -1,24 +1,24 @@
 export default class LauncherExitSignalListenerMixin {
   static mix (superclass) {
     return class extends superclass {
-      constructor (exitListeners, ...args) {
-        super(...args)
-        this.exitListeners = exitListeners
+      constructor ({ sigintListener }) {
+        super(...arguments)
+        this.sigintListener = sigintListener
       }
 
       async run () {
-        this.exitListeners.listen(() => this.exit(0))
+        this.sigintListener.listen(() => this.exit(0))
         const httpServer = await super.run()
         return httpServer
       }
 
       async close () {
-        this.exitListeners.remove()
+        this.sigintListener.remove()
         await super.close()
       }
 
       async exit (failure = 0) {
-        this.exitListeners.remove()
+        this.sigintListener.remove()
         await super.exit(failure)
       }
     }

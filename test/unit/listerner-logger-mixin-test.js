@@ -6,7 +6,7 @@ import { LoggerInterface } from 'metallic-logger'
 import ListenerLoggerMixin from '../../src/listener-logger-mixin'
 
 class Listener extends ListenerAbstract {
-  constructor (emitter) {
+  constructor ({ emitter }) {
     super(emitter, 'wadus')
   }
 }
@@ -16,12 +16,12 @@ describe('listener-logger-mixin', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create()
 
-    this.logger = new Logger()
-    this.emitter = new EventEmitter()
+    const logger = this.logger = new Logger()
+    const emitter = this.emitter = new EventEmitter()
 
     const LoggedListener = ListenerLoggerMixin.mix(Listener)
 
-    this.loggedListener = new LoggedListener(this.logger, this.emitter)
+    this.loggedListener = new LoggedListener({ logger, emitter })
   })
 
   afterEach(function () {

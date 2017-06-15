@@ -1,13 +1,13 @@
 export default class LauncherUnhandledRejectionListenerMixin {
   static mix (superclass) {
     return class extends superclass {
-      constructor (logUnhandledRejectionListener, ...args) {
-        super(...args)
-        this.logUnhandledRejectionListener = logUnhandledRejectionListener
+      constructor ({ unhandledRejectionListener }) {
+        super(...arguments)
+        this.unhandledRejectionListener = unhandledRejectionListener
       }
 
       async run () {
-        this.logUnhandledRejectionListener.listen((reason, promise) => {
+        this.unhandledRejectionListener.listen((reason, promise) => {
           promise.catch(err => {
             if (this.logger) {
               this.logger.error('Unhandled promise rejection:', err)
@@ -20,12 +20,12 @@ export default class LauncherUnhandledRejectionListenerMixin {
       }
 
       async close () {
-        this.logUnhandledRejectionListener.remove()
+        this.unhandledRejectionListener.remove()
         await super.close()
       }
 
       async exit (failure = 0) {
-        this.logUnhandledRejectionListener.remove()
+        this.unhandledRejectionListener.remove()
         await super.exit(failure)
       }
     }

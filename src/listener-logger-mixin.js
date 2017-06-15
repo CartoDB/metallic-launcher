@@ -1,8 +1,8 @@
 export default class ListenerLoggerMixin {
   static mix (superclass) {
     return class extends superclass {
-      constructor (logger, ...args) {
-        super(...args)
+      constructor ({ logger }) {
+        super(...arguments)
         this.logger = logger
       }
 

@@ -9,14 +9,17 @@ import cluster from 'cluster'
 
 describe('leader-exit-signal-listener-mixin', function () {
   beforeEach(function () {
-    const Leader = LeaderRebootListenerMixin.mix(DummyLeader)
-
     this.sandbox = sinon.sandbox.create()
 
-    this.emitter = new EventEmitter()
-    this.listener = new SighupListener(this.emitter)
+    const Leader = LeaderRebootListenerMixin.mix(DummyLeader)
 
-    this.leader = new Leader(this.listener, cluster, 2)
+    this.emitter = new EventEmitter()
+    const rebootListeners = new SighupListener(this.emitter)
+    this.rebootListeners = rebootListeners
+
+    const serverPoolSize = 2
+
+    this.leader = new Leader({ rebootListeners, cluster, serverPoolSize })
   })
 
   afterEach(function () {
@@ -28,11 +31,11 @@ describe('leader-exit-signal-listener-mixin', function () {
   })
 
   it('.run() should attach listener', async function () {
-    const listernerListenSpy = this.sandbox.spy(this.listener, 'listen')
+    const rebootListenersListenSpy = this.sandbox.spy(this.rebootListeners, 'listen')
 
     await this.leader.run()
 
-    assert.ok(listernerListenSpy.calledOnce)
+    assert.ok(rebootListenersListenSpy.calledOnce)
   })
 
   it('should reboot when sighup has been emitted', async function () {
@@ -46,20 +49,20 @@ describe('leader-exit-signal-listener-mixin', function () {
   })
 
   it('.close() should remove listener', async function () {
-    const listenerRemoveStub = this.sandbox.stub(this.listener, 'remove')
+    const rebootListenersRemoveStub = this.sandbox.stub(this.rebootListeners, 'remove')
 
     await this.leader.run()
     await this.leader.close()
 
-    assert.ok(listenerRemoveStub.calledOnce)
+    assert.ok(rebootListenersRemoveStub.calledOnce)
   })
 
   it('.exit() should remove listener', async function () {
-    const listenerRemoveStub = this.sandbox.stub(this.listener, 'remove')
+    const rebootListenersRemoveStub = this.sandbox.stub(this.rebootListeners, 'remove')
 
     await this.leader.run()
     await this.leader.exit()
 
-    assert.ok(listenerRemoveStub.calledOnce)
+    assert.ok(rebootListenersRemoveStub.calledOnce)
   })
 })

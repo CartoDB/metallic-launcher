@@ -13,9 +13,9 @@ describe('launcher-uncaught-exception-listener-mixin', function () {
     this.sandbox = sinon.sandbox.create()
 
     this.emitter = new EventEmitter()
-    this.listener = new UncaughtExceptionListener(this.emitter)
+    const uncaughtExceptionListeners = this.uncaughtExceptionListeners = new UncaughtExceptionListener(this.emitter)
 
-    this.launcher = new EventedLauncher(this.listener)
+    this.launcher = new EventedLauncher({ uncaughtExceptionListeners })
   })
 
   afterEach(function () {
@@ -27,11 +27,11 @@ describe('launcher-uncaught-exception-listener-mixin', function () {
   })
 
   it('.run() should attach listener', async function () {
-    const listernerListenSpy = this.sandbox.spy(this.listener, 'listen')
+    const uncaughtExceptionListenersListenSpy = this.sandbox.spy(this.uncaughtExceptionListeners, 'listen')
 
     await this.launcher.run()
 
-    assert.ok(listernerListenSpy.calledOnce)
+    assert.ok(uncaughtExceptionListenersListenSpy.calledOnce)
   })
 
   it('should exit when uncaughtException has been emitted', async function () {
@@ -46,20 +46,20 @@ describe('launcher-uncaught-exception-listener-mixin', function () {
   })
 
   it('.close() should remove listener', async function () {
-    const listenerRemoveStub = this.sandbox.stub(this.listener, 'remove')
+    const uncaughtExceptionListenersRemoveStub = this.sandbox.stub(this.uncaughtExceptionListeners, 'remove')
 
     await this.launcher.run()
     await this.launcher.close()
 
-    assert.ok(listenerRemoveStub.calledOnce)
+    assert.ok(uncaughtExceptionListenersRemoveStub.calledOnce)
   })
 
   it('.exit() should remove listener', async function () {
-    const listenerRemoveStub = this.sandbox.stub(this.listener, 'remove')
+    const uncaughtExceptionListenersRemoveStub = this.sandbox.stub(this.uncaughtExceptionListeners, 'remove')
 
     await this.launcher.run()
     await this.launcher.exit()
 
-    assert.ok(listenerRemoveStub.calledOnce)
+    assert.ok(uncaughtExceptionListenersRemoveStub.calledOnce)
   })
 })

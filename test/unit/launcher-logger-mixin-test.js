@@ -12,8 +12,8 @@ describe('listener-logger-mixin', function () {
     const LoggedLauncher = LauncherLoggerMixin.mix(DummyLauncher)
 
     this.sandbox = sinon.sandbox.create()
-    this.logger = new Logger()
-    this.launcher = new LoggedLauncher(this.logger)
+    const logger = this.logger = new Logger()
+    this.launcher = new LoggedLauncher({ logger })
   })
 
   afterEach(function () {

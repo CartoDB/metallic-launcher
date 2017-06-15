@@ -6,17 +6,17 @@ import LauncherFactory, { Role, LEADER, SERVER } from '../../src'
 
 describe('launcher-factory', function () {
   it('.create() should return a Runner instance', function () {
-    const logger = LoggerFactory.create({ name: 'wadus', enabled: false })
-    const metrics = MetricsFactory.create(logger)
-    const launcher = LauncherFactory.create(metrics, logger)
+    const logger = LoggerFactory.create({ name: 'wadus' })
+    const metrics = MetricsFactory.create({ logger })
+    const launcher = LauncherFactory.create({ metrics, logger })
 
     assert.ok(launcher instanceof RunnerInterface)
   })
 
   it('.create() w/o logger should return a Runner instance', function () {
-    const logger = LoggerFactory.create({ name: 'wadus', enabled: false })
-    const metrics = MetricsFactory.create(logger)
-    const launcher = LauncherFactory.create(metrics)
+    const logger = LoggerFactory.create({ name: 'wadus' })
+    const metrics = MetricsFactory.create({ logger })
+    const launcher = LauncherFactory.create({ metrics })
 
     assert.ok(launcher instanceof RunnerInterface)
   })

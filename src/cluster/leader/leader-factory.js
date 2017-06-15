@@ -11,7 +11,7 @@ import LeaderRotateLogListenerMixin from './leader-rotate-log-listener-mixin'
 import Leader from './leader'
 
 export default class LeaderFactory extends FactoryInterface {
-  static create (metrics, logger) {
+  static create ({ metrics, logger }) {
     const serverPoolSize = os.cpus().length
 
     const LoggedSigusr2Listener = ListenerLoggerMixin.mix(Sigusr2Listener)
@@ -31,7 +31,13 @@ export default class LeaderFactory extends FactoryInterface {
       )
     )
 
-    return new LeaderOnSteroids(sighupListener, serverExitListener, sigusr2Listener, cluster, serverPoolSize)
+    return new LeaderOnSteroids({
+      sighupListener,
+      serverExitListener,
+      sigusr2Listener,
+      cluster,
+      serverPoolSize
+    })
   }
 
   static shouldCreate (clusterOn) {

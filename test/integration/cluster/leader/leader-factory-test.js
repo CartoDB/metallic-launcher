@@ -6,10 +6,10 @@ import LeaderFactory from '../../../../src/cluster/leader'
 
 describe('leader-factory', function () {
   it('.create() should return a Runner instance', function () {
-    const logger = LoggerFactory.create({ name: 'wadus', enabled: false })
-    const metrics = MetricsFactory.create(logger)
+    const logger = LoggerFactory.create({ name: 'wadus' })
+    const metrics = MetricsFactory.create({ logger })
 
-    const leader = LeaderFactory.create(metrics, logger)
+    const leader = LeaderFactory.create({ metrics, logger })
 
     assert.ok(leader instanceof RunnerInterface)
   })

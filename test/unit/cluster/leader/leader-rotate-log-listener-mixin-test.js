@@ -14,9 +14,10 @@ describe('leader-rotate-log-listener-mixin', function () {
     this.sandbox = sinon.sandbox.create()
 
     this.emitter = new EventEmitter()
-    this.listener = new Sigusr2Listener(this.emitter)
+    const sigusr2Listener = this.sigusr2Listener = new Sigusr2Listener(this.emitter)
+    const serverPoolSize = this.serverPoolSize = 2
 
-    this.leader = new Leader(this.listener, cluster, 2)
+    this.leader = new Leader({ sigusr2Listener, cluster, serverPoolSize })
   })
 
   afterEach(function () {
@@ -28,11 +29,11 @@ describe('leader-rotate-log-listener-mixin', function () {
   })
 
   it('.run() should attach listener', async function () {
-    const listernerListenSpy = this.sandbox.spy(this.listener, 'listen')
+    const sigusr2ListenerListenSpy = this.sandbox.spy(this.sigusr2Listener, 'listen')
 
     await this.leader.run()
 
-    assert.ok(listernerListenSpy.calledOnce)
+    assert.ok(sigusr2ListenerListenSpy.calledOnce)
   })
 
   it('should refork when sigusr2 has been emitted', async function () {
@@ -46,20 +47,20 @@ describe('leader-rotate-log-listener-mixin', function () {
   })
 
   it('.close() should remove listener', async function () {
-    const listenerRemoveStub = this.sandbox.stub(this.listener, 'remove')
+    const sigusr2ListenerRemoveStub = this.sandbox.stub(this.sigusr2Listener, 'remove')
 
     await this.leader.run()
     await this.leader.close()
 
-    assert.ok(listenerRemoveStub.calledOnce)
+    assert.ok(sigusr2ListenerRemoveStub.calledOnce)
   })
 
   it('.exit() should remove listener', async function () {
-    const listenerRemoveStub = this.sandbox.stub(this.listener, 'remove')
+    const sigusr2ListenerRemoveStub = this.sandbox.stub(this.sigusr2Listener, 'remove')
 
     await this.leader.run()
     await this.leader.exit()
 
-    assert.ok(listenerRemoveStub.calledOnce)
+    assert.ok(sigusr2ListenerRemoveStub.calledOnce)
   })
 })

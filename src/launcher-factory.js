@@ -14,8 +14,8 @@ import LauncherLoggerMixin from './launcher-logger-mixin'
 import Launcher from './launcher'
 
 export default class LauncherFactory extends FactoryInterface {
-  static create (metrics, logger, options) {
-    const target = ClusterFactory.create(metrics, logger, options)
+  static create ({ metrics, logger, options }) {
+    const target = ClusterFactory.create({ metrics, logger, options })
 
     const listenerArgs = logger ? [ logger, process ] : [ process ]
     const Sigint = logger ? ListenerLoggerMixin.mix(SigintListener) : SigintListener
@@ -44,17 +44,13 @@ export default class LauncherFactory extends FactoryInterface {
     )
 
     const LauncherOnSteroids = logger ? LauncherLoggerMixin.mix(EventedLauncher) : EventedLauncher
-    const launcherArgs = [
+
+    return new LauncherOnSteroids({
+      logger,
       uncaughtExceptionListeners,
       exitSignalListeners,
       unhandledRejectionListeners,
       target
-    ]
-
-    if (logger) {
-      launcherArgs.unshift(logger)
-    }
-
-    return new LauncherOnSteroids(...launcherArgs)
+    })
   }
 }

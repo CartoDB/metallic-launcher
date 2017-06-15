@@ -1,23 +1,23 @@
 export default class LeaderReforkListenerMixin {
   static mix (superclass) {
     return class extends superclass {
-      constructor (reforkListeners, ...args) {
-        super(...args)
-        this.reforkListeners = reforkListeners
+      constructor ({ serverExitListener }) {
+        super(...arguments)
+        this.serverExitListener = serverExitListener
       }
 
       async run () {
-        this.reforkListeners.listen((server, code) => this.refork(server, code))
+        this.serverExitListener.listen((server, code) => this.refork(server, code))
         await super.run()
       }
 
       async close () {
-        this.reforkListeners.remove()
+        this.serverExitListener.remove()
         await super.close()
       }
 
       async exit (failure = 0) {
-        this.reforkListeners.remove()
+        this.serverExitListener.remove()
         await super.exit(failure)
       }
     }

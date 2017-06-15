@@ -13,9 +13,9 @@ describe('launcher-exit-signal-listener-mixin', function () {
     this.sandbox = sinon.sandbox.create()
 
     this.emitter = new EventEmitter()
-    this.listener = new SigintListener(this.emitter)
+    const sigintListener = this.sigintListener = new SigintListener(this.emitter)
 
-    this.launcher = new EventedLauncher(this.listener)
+    this.launcher = new EventedLauncher({ sigintListener })
   })
 
   afterEach(function () {
@@ -27,11 +27,11 @@ describe('launcher-exit-signal-listener-mixin', function () {
   })
 
   it('.run() should attach listener', async function () {
-    const listernerListenSpy = this.sandbox.spy(this.listener, 'listen')
+    const sigintListenerListenSpy = this.sandbox.spy(this.sigintListener, 'listen')
 
     await this.launcher.run()
 
-    assert.ok(listernerListenSpy.calledOnce)
+    assert.ok(sigintListenerListenSpy.calledOnce)
   })
 
   it('should exit when exit signal has been emitted', async function () {
@@ -46,20 +46,20 @@ describe('launcher-exit-signal-listener-mixin', function () {
   })
 
   it('.close() should remove listener', async function () {
-    const listenerRemoveStub = this.sandbox.stub(this.listener, 'remove')
+    const sigintListenerRemoveStub = this.sandbox.stub(this.sigintListener, 'remove')
 
     await this.launcher.run()
     await this.launcher.close()
 
-    assert.ok(listenerRemoveStub.calledOnce)
+    assert.ok(sigintListenerRemoveStub.calledOnce)
   })
 
   it('.exit() should remove listener', async function () {
-    const listenerRemoveStub = this.sandbox.stub(this.listener, 'remove')
+    const sigintListenerRemoveStub = this.sandbox.stub(this.sigintListener, 'remove')
 
     await this.launcher.run()
     await this.launcher.exit()
 
-    assert.ok(listenerRemoveStub.calledOnce)
+    assert.ok(sigintListenerRemoveStub.calledOnce)
   })
 })
