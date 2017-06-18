@@ -5,9 +5,6 @@ import LauncherInterface from '../../src/launcher-interface'
 import Launcher from '../../src/launcher'
 
 class Target extends ClusterInterface {
-  get app () {
-    return 'app'
-  }
   get role () {
     return 'role'
   }
@@ -17,9 +14,9 @@ describe('launcher', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create()
 
-    this.target = new Target()
+    const target = this.target = new Target()
 
-    this.launcher = new Launcher(this.target)
+    this.launcher = new Launcher({ target })
   })
 
   afterEach(function () {
@@ -28,10 +25,6 @@ describe('launcher', function () {
 
   it(`should implement a ${LauncherInterface.name}`, function () {
     assert.ok(this.launcher instanceof LauncherInterface)
-  })
-
-  it('.app should get target\'s app', function () {
-    assert.equal(this.launcher.app, 'app')
   })
 
   it('.role should get target\'s role', function () {

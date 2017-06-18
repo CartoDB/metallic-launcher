@@ -8,8 +8,8 @@ describe('sigint-listener', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create()
 
-    this.emitter = new EventEmitter()
-    this.sigintListener = new SigintListener(this.emitter)
+    const emitter = this.emitter = new EventEmitter()
+    this.sigintListener = new SigintListener({ emitter })
   })
 
   afterEach(function () {

@@ -1,4 +1,4 @@
-export default class LeaderExitOnErrorMixin {
+export default class LauncherExitOnErrorMixin {
   static mix (superclass) {
     return class extends superclass {
       async run () {

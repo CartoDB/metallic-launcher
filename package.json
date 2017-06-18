@@ -24,7 +24,6 @@
     "test": "test"
   },
   "dependencies": {
-    "metallic-app": "^0.5.0",
     "metallic-errors": "^0.1.1",
     "metallic-listeners": "^0.3.0"
   },
@@ -45,6 +44,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "istanbul": "^0.4.5",
+    "metallic-app": "^0.5.0",
     "metallic-interfaces": "^0.2.0",
     "metallic-logger": "^0.6.0",
     "metallic-metrics": "^0.6.0",

@@ -4,11 +4,7 @@ import { RunnerInterface } from 'metallic-interfaces'
 import Server from '../../../../src/cluster/server/server'
 import { SERVER } from '../../../../src/cluster/role'
 
-class HttpServer extends RunnerInterface {
-  get app () {
-    return {}
-  }
-}
+class HttpServer extends RunnerInterface {}
 
 describe('worker', function () {
   beforeEach(function () {
@@ -24,10 +20,6 @@ describe('worker', function () {
 
   it('should be a runner instance', function () {
     assert.ok(this.server instanceof RunnerInterface)
-  })
-
-  it('.app should get target\'s app', function () {
-    assert.deepEqual(this.server.app, this.httpServer.app)
   })
 
   it('.role should be SERVER', function () {

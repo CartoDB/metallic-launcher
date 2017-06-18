@@ -1,13 +1,9 @@
 import LauncherInterface from './launcher-interface'
 
 export default class Launcher extends LauncherInterface {
-  constructor (target) {
+  constructor ({ target }) {
     super()
     this.target = target
-  }
-
-  get app () {
-    return this.target.app
   }
 
   get role () {
@@ -20,10 +16,10 @@ export default class Launcher extends LauncherInterface {
   }
 
   async close () {
-    return this.target.close()
+    await this.target.close()
   }
 
   async exit (failure) {
-    return this.target.exit(failure)
+    await this.target.exit(failure)
   }
 }

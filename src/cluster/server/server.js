@@ -15,10 +15,6 @@ export default class Server extends ClusterInterface {
     return SERVER
   }
 
-  get app () {
-    return this.httpServer.app
-  }
-
   async run () {
     const httpServer = await this.httpServer.run()
     return httpServer

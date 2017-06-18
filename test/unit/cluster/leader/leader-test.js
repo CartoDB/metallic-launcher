@@ -22,10 +22,6 @@ describe('leader', function () {
     this.sandbox.restore()
   })
 
-  it('.app should get target\'s app', function () {
-    assert.deepEqual(this.leader.app, { provider: null })
-  })
-
   it('.role should be LEADER', function () {
     assert.equal(this.leader.role, LEADER)
   })

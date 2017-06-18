@@ -12,8 +12,8 @@ describe('launcher-uncaught-exception-listener-mixin', function () {
 
     this.sandbox = sinon.sandbox.create()
 
-    this.emitter = new EventEmitter()
-    const uncaughtExceptionListeners = this.uncaughtExceptionListeners = new UncaughtExceptionListener(this.emitter)
+    const emitter = this.emitter = new EventEmitter()
+    const uncaughtExceptionListeners = this.uncaughtExceptionListeners = new UncaughtExceptionListener({ emitter })
 
     this.launcher = new EventedLauncher({ uncaughtExceptionListeners })
   })

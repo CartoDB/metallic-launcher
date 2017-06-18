@@ -17,10 +17,6 @@ export default class Leader extends LeaderInterface {
     return LEADER
   }
 
-  get app () {
-    return { provider: null }
-  }
-
   async run () {
     for (let i = 0; i < this.serverPoolSize; i++) {
       this.cluster.fork()

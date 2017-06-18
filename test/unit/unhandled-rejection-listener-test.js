@@ -11,9 +11,9 @@ describe('unhandled-rejection-listener', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create()
 
-    this.emitter = new EventEmitter()
-    this.logger = new Logger()
-    this.unhandledRejectionListener = new UnhandledRejectionListener(this.emitter, this.logger)
+    const emitter = this.emitter = new EventEmitter()
+    const logger = this.logger = new Logger()
+    this.unhandledRejectionListener = new UnhandledRejectionListener({ emitter, logger })
   })
 
   afterEach(function () {

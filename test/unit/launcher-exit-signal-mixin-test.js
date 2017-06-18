@@ -12,10 +12,10 @@ describe('launcher-exit-signal-listener-mixin', function () {
 
     this.sandbox = sinon.sandbox.create()
 
-    this.emitter = new EventEmitter()
-    const sigintListener = this.sigintListener = new SigintListener(this.emitter)
+    const emitter = this.emitter = new EventEmitter()
+    const exitSignalListeners = this.exitSignalListeners = new SigintListener({ emitter })
 
-    this.launcher = new EventedLauncher({ sigintListener })
+    this.launcher = new EventedLauncher({ exitSignalListeners })
   })
 
   afterEach(function () {
@@ -27,11 +27,11 @@ describe('launcher-exit-signal-listener-mixin', function () {
   })
 
   it('.run() should attach listener', async function () {
-    const sigintListenerListenSpy = this.sandbox.spy(this.sigintListener, 'listen')
+    const exitSignalListenersListenSpy = this.sandbox.spy(this.exitSignalListeners, 'listen')
 
     await this.launcher.run()
 
-    assert.ok(sigintListenerListenSpy.calledOnce)
+    assert.ok(exitSignalListenersListenSpy.calledOnce)
   })
 
   it('should exit when exit signal has been emitted', async function () {
@@ -46,20 +46,20 @@ describe('launcher-exit-signal-listener-mixin', function () {
   })
 
   it('.close() should remove listener', async function () {
-    const sigintListenerRemoveStub = this.sandbox.stub(this.sigintListener, 'remove')
+    const exitSignalListenersRemoveStub = this.sandbox.stub(this.exitSignalListeners, 'remove')
 
     await this.launcher.run()
     await this.launcher.close()
 
-    assert.ok(sigintListenerRemoveStub.calledOnce)
+    assert.ok(exitSignalListenersRemoveStub.calledOnce)
   })
 
   it('.exit() should remove listener', async function () {
-    const sigintListenerRemoveStub = this.sandbox.stub(this.sigintListener, 'remove')
+    const exitSignalListenersRemoveStub = this.sandbox.stub(this.exitSignalListeners, 'remove')
 
     await this.launcher.run()
     await this.launcher.exit()
 
-    assert.ok(sigintListenerRemoveStub.calledOnce)
+    assert.ok(exitSignalListenersRemoveStub.calledOnce)
   })
 })

@@ -22,11 +22,11 @@ describe('launcher-unhandled-rejection-listener-mixin', function () {
 
     this.sandbox = sinon.sandbox.create()
 
-    this.emitter = new EventEmitter()
-    const unhandledRejectionListener = this.unhandledRejectionListener = new UnhandledRejectionListener(this.emitter)
+    const emitter = this.emitter = new EventEmitter()
+    const unhandledRejectionListeners = this.unhandledRejectionListeners = new UnhandledRejectionListener({ emitter })
     const logger = this.logger = new Logger()
 
-    this.launcher = new EventedLauncher({ unhandledRejectionListener, logger })
+    this.launcher = new EventedLauncher({ unhandledRejectionListeners, logger })
   })
 
   afterEach(function () {
@@ -38,7 +38,7 @@ describe('launcher-unhandled-rejection-listener-mixin', function () {
   })
 
   it('.run() should attach listener', async function () {
-    const unhandledRejectionListenerListenSpy = this.sandbox.spy(this.unhandledRejectionListener, 'listen')
+    const unhandledRejectionListenerListenSpy = this.sandbox.spy(this.unhandledRejectionListeners, 'listen')
 
     await this.launcher.run()
 
@@ -48,7 +48,7 @@ describe('launcher-unhandled-rejection-listener-mixin', function () {
   it('.run() should exit the process when "unhandledRejection" has been emitted', async function () {
     const EventedLauncher = LauncherUnhandledRejectionListenerMixin.mix(Launcher)
 
-    const launcher = new EventedLauncher({ unhandledRejectionListener: this.unhandledRejectionListener })
+    const launcher = new EventedLauncher({ unhandledRejectionListeners: this.unhandledRejectionListeners })
     const launcherExitStub = this.sandbox.stub(launcher, 'exit')
 
     const error = new Error('wadus')
@@ -74,20 +74,20 @@ describe('launcher-unhandled-rejection-listener-mixin', function () {
   })
 
   it('.close() should remove listener', async function () {
-    const unhandledRejectionListenerRemoveStub = this.sandbox.stub(this.unhandledRejectionListener, 'remove')
+    const unhandledRejectionListenersRemoveStub = this.sandbox.stub(this.unhandledRejectionListeners, 'remove')
 
     await this.launcher.run()
     await this.launcher.close()
 
-    assert.ok(unhandledRejectionListenerRemoveStub.calledOnce)
+    assert.ok(unhandledRejectionListenersRemoveStub.calledOnce)
   })
 
   it('.exit() should remove listener', async function () {
-    const unhandledRejectionListenerRemoveStub = this.sandbox.stub(this.unhandledRejectionListener, 'remove')
+    const unhandledRejectionListenersRemoveStub = this.sandbox.stub(this.unhandledRejectionListeners, 'remove')
 
     await this.launcher.run()
     await this.launcher.exit()
 
-    assert.ok(unhandledRejectionListenerRemoveStub.calledOnce)
+    assert.ok(unhandledRejectionListenersRemoveStub.calledOnce)
   })
 })

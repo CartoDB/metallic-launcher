@@ -8,8 +8,8 @@ describe('uncaught-exception-listener', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create()
 
-    this.emitter = new EventEmitter()
-    this.uncaughtExceptionListener = new UncaughtExceptionListener(this.emitter)
+    const emitter = this.emitter = new EventEmitter()
+    this.uncaughtExceptionListener = new UncaughtExceptionListener({ emitter })
   })
 
   afterEach(function () {

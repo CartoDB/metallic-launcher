@@ -14,24 +14,23 @@ import LauncherLoggerMixin from './launcher-logger-mixin'
 import Launcher from './launcher'
 
 export default class LauncherFactory extends FactoryInterface {
-  static create ({ metrics, logger, options }) {
-    const target = ClusterFactory.create({ metrics, logger, options })
+  static create ({ httpServer, metrics, logger, options }) {
+    const target = ClusterFactory.create({ httpServer, metrics, logger, options })
 
-    const listenerArgs = logger ? [ logger, process ] : [ process ]
     const Sigint = logger ? ListenerLoggerMixin.mix(SigintListener) : SigintListener
     const Sigterm = logger ? ListenerLoggerMixin.mix(SigtermListener) : SigtermListener
 
     const exitSignalListeners = new Listeners()
-      .add(new Sigint(...listenerArgs))
-      .add(new Sigterm(...listenerArgs))
+      .add(new Sigint({ logger, emitter: process }))
+      .add(new Sigterm({ logger, emitter: process }))
 
     const UncaughtException = logger ? ListenerLoggerMixin.mix(UncaughtExceptionListener) : UncaughtExceptionListener
     const uncaughtExceptionListeners = new Listeners()
-      .add(new UncaughtException(...listenerArgs))
+      .add(new UncaughtException({ logger, emitter: process }))
 
     const UnhandledRejection = logger ? ListenerLoggerMixin.mix(UnhandledRejectionListener) : UnhandledRejectionListener
     const unhandledRejectionListeners = new Listeners()
-      .add(new UnhandledRejection(...listenerArgs))
+      .add(new UnhandledRejection({ logger, emitter: process }))
 
     const EventedLauncher = LauncherExitOnErrorMixin.mix(
       LauncherUncaughtExceptionListenerMixin.mix(
