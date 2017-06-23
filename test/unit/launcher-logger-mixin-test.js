@@ -7,7 +7,7 @@ import { LoggerInterface } from 'metallic-logger'
 
 class Logger extends LoggerInterface {}
 
-describe('listener-logger-mixin', function () {
+describe('launcher-logger-mixin', function () {
   beforeEach(function () {
     const LoggedLauncher = LauncherLoggerMixin.mix(DummyLauncher)
 
