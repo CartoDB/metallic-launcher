@@ -15,13 +15,13 @@ export default class LeaderFactory extends FactoryInterface {
     const serverPoolSize = os.cpus().length
 
     const LoggedSigusr2Listener = ListenerLoggerMixin.mix(Sigusr2Listener)
-    const sigusr2Listener = new LoggedSigusr2Listener({ logger, emitter: process })
+    const sigusr2Listeners = new LoggedSigusr2Listener({ logger, emitter: process })
 
     const LoggedServerExitListener = ListenerLoggerMixin.mix(ServerExitListener)
-    const serverExitListener = new LoggedServerExitListener({ logger, emitter: process })
+    const serverExitListeners = new LoggedServerExitListener({ logger, emitter: process })
 
     const LoggedSighupListener = ListenerLoggerMixin.mix(SighupListener)
-    const sighupListener = new LoggedSighupListener({ logger, emitter: process })
+    const sighupListeners = new LoggedSighupListener({ logger, emitter: process })
 
     const LeaderOnSteroids = LeaderRebootListenerMixin.mix(
       LeaderReforkListenerMixin.mix(
@@ -32,9 +32,9 @@ export default class LeaderFactory extends FactoryInterface {
     )
 
     return new LeaderOnSteroids({
-      sighupListener,
-      serverExitListener,
-      sigusr2Listener,
+      sighupListeners,
+      serverExitListeners,
+      sigusr2Listeners,
       cluster,
       serverPoolSize
     })

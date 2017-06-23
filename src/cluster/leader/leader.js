@@ -3,7 +3,7 @@ import Role, { LEADER } from '../role'
 import LeaderInterface from './leader-interface'
 
 export default class Leader extends LeaderInterface {
-  constructor (cluster, serverPoolSize) {
+  constructor ({ cluster, serverPoolSize }) {
     super()
     this.cluster = cluster
     this.serverPoolSize = serverPoolSize

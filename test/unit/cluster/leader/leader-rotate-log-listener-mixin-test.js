@@ -13,11 +13,11 @@ describe('leader-rotate-log-listener-mixin', function () {
 
     this.sandbox = sinon.sandbox.create()
 
-    this.emitter = new EventEmitter()
-    const sigusr2Listener = this.sigusr2Listener = new Sigusr2Listener(this.emitter)
+    const emitter = this.emitter = new EventEmitter()
+    const sigusr2Listeners = this.sigusr2Listeners = new Sigusr2Listener({ emitter })
     const serverPoolSize = this.serverPoolSize = 2
 
-    this.leader = new Leader({ sigusr2Listener, cluster, serverPoolSize })
+    this.leader = new Leader({ sigusr2Listeners, cluster, serverPoolSize })
   })
 
   afterEach(function () {
@@ -29,11 +29,11 @@ describe('leader-rotate-log-listener-mixin', function () {
   })
 
   it('.run() should attach listener', async function () {
-    const sigusr2ListenerListenSpy = this.sandbox.spy(this.sigusr2Listener, 'listen')
+    const sigusr2ListenersListenSpy = this.sandbox.spy(this.sigusr2Listeners, 'listen')
 
     await this.leader.run()
 
-    assert.ok(sigusr2ListenerListenSpy.calledOnce)
+    assert.ok(sigusr2ListenersListenSpy.calledOnce)
   })
 
   it('should refork when sigusr2 has been emitted', async function () {
@@ -47,20 +47,20 @@ describe('leader-rotate-log-listener-mixin', function () {
   })
 
   it('.close() should remove listener', async function () {
-    const sigusr2ListenerRemoveStub = this.sandbox.stub(this.sigusr2Listener, 'remove')
+    const sigusr2ListenersRemoveStub = this.sandbox.stub(this.sigusr2Listeners, 'remove')
 
     await this.leader.run()
     await this.leader.close()
 
-    assert.ok(sigusr2ListenerRemoveStub.calledOnce)
+    assert.ok(sigusr2ListenersRemoveStub.calledOnce)
   })
 
   it('.exit() should remove listener', async function () {
-    const sigusr2ListenerRemoveStub = this.sandbox.stub(this.sigusr2Listener, 'remove')
+    const sigusr2ListenersRemoveStub = this.sandbox.stub(this.sigusr2Listeners, 'remove')
 
     await this.leader.run()
     await this.leader.exit()
 
-    assert.ok(sigusr2ListenerRemoveStub.calledOnce)
+    assert.ok(sigusr2ListenersRemoveStub.calledOnce)
   })
 })

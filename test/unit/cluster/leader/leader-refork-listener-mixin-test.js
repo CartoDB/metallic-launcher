@@ -13,11 +13,11 @@ describe('leader-refork-listener-mixin', function () {
 
     const Leader = LeaderReforkListenerMixin.mix(DummyLeader)
 
-    this.emitter = new EventEmitter()
-    const serverExitListener = this.serverExitListener = new ServerExitListener(this.emitter)
+    const emitter = this.emitter = new EventEmitter()
+    const serverExitListeners = this.serverExitListeners = new ServerExitListener({ emitter })
     const serverPoolSize = this.serverPoolSize = 2
 
-    this.leader = new Leader({ serverExitListener, cluster, serverPoolSize })
+    this.leader = new Leader({ serverExitListeners, cluster, serverPoolSize })
   })
 
   afterEach(function () {
@@ -29,11 +29,11 @@ describe('leader-refork-listener-mixin', function () {
   })
 
   it('.run() should attach listener', async function () {
-    const serverExitListenerListenSpy = this.sandbox.spy(this.serverExitListener, 'listen')
+    const serverExitListenersListenSpy = this.sandbox.spy(this.serverExitListeners, 'listen')
 
     await this.leader.run()
 
-    assert.ok(serverExitListenerListenSpy.calledOnce)
+    assert.ok(serverExitListenersListenSpy.calledOnce)
   })
 
   it('should refork when exit has been emitted', async function () {
@@ -47,20 +47,20 @@ describe('leader-refork-listener-mixin', function () {
   })
 
   it('.close() should remove listener', async function () {
-    const serverExitListenerRemoveStub = this.sandbox.stub(this.serverExitListener, 'remove')
+    const serverExitListenersRemoveStub = this.sandbox.stub(this.serverExitListeners, 'remove')
 
     await this.leader.run()
     await this.leader.close()
 
-    assert.ok(serverExitListenerRemoveStub.calledOnce)
+    assert.ok(serverExitListenersRemoveStub.calledOnce)
   })
 
   it('.exit() should remove listener', async function () {
-    const serverExitListenerRemoveStub = this.sandbox.stub(this.serverExitListener, 'remove')
+    const serverExitListenersRemoveStub = this.sandbox.stub(this.serverExitListeners, 'remove')
 
     await this.leader.run()
     await this.leader.exit()
 
-    assert.ok(serverExitListenerRemoveStub.calledOnce)
+    assert.ok(serverExitListenersRemoveStub.calledOnce)
   })
 })

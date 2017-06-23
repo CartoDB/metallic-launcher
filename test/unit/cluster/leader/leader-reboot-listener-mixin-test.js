@@ -13,13 +13,13 @@ describe('leader-exit-signal-listener-mixin', function () {
 
     const Leader = LeaderRebootListenerMixin.mix(DummyLeader)
 
-    this.emitter = new EventEmitter()
-    const rebootListeners = new SighupListener(this.emitter)
-    this.rebootListeners = rebootListeners
+    const emitter = this.emitter = new EventEmitter()
+    const sighupListeners = new SighupListener({ emitter })
+    this.sighupListeners = sighupListeners
 
     const serverPoolSize = 2
 
-    this.leader = new Leader({ rebootListeners, cluster, serverPoolSize })
+    this.leader = new Leader({ sighupListeners, cluster, serverPoolSize })
   })
 
   afterEach(function () {
@@ -31,11 +31,11 @@ describe('leader-exit-signal-listener-mixin', function () {
   })
 
   it('.run() should attach listener', async function () {
-    const rebootListenersListenSpy = this.sandbox.spy(this.rebootListeners, 'listen')
+    const sighupListenersListenSpy = this.sandbox.spy(this.sighupListeners, 'listen')
 
     await this.leader.run()
 
-    assert.ok(rebootListenersListenSpy.calledOnce)
+    assert.ok(sighupListenersListenSpy.calledOnce)
   })
 
   it('should reboot when sighup has been emitted', async function () {
@@ -49,20 +49,20 @@ describe('leader-exit-signal-listener-mixin', function () {
   })
 
   it('.close() should remove listener', async function () {
-    const rebootListenersRemoveStub = this.sandbox.stub(this.rebootListeners, 'remove')
+    const sighupListenersRemoveStub = this.sandbox.stub(this.sighupListeners, 'remove')
 
     await this.leader.run()
     await this.leader.close()
 
-    assert.ok(rebootListenersRemoveStub.calledOnce)
+    assert.ok(sighupListenersRemoveStub.calledOnce)
   })
 
   it('.exit() should remove listener', async function () {
-    const rebootListenersRemoveStub = this.sandbox.stub(this.rebootListeners, 'remove')
+    const sighupListenersRemoveStub = this.sandbox.stub(this.sighupListeners, 'remove')
 
     await this.leader.run()
     await this.leader.exit()
 
-    assert.ok(rebootListenersRemoveStub.calledOnce)
+    assert.ok(sighupListenersRemoveStub.calledOnce)
   })
 })

@@ -12,10 +12,10 @@ describe('leader', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create()
 
-    this.cluster = new Cluster()
-    this.serverPoolSize = 2
+    const cluster = this.cluster = new Cluster()
+    const serverPoolSize = this.serverPoolSize = 2
 
-    this.leader = new Leader(this.cluster, this.serverPoolSize)
+    this.leader = new Leader({ cluster, serverPoolSize })
   })
 
   afterEach(function () {

@@ -10,8 +10,8 @@ describe('worker', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create()
 
-    this.httpServer = new HttpServer()
-    this.server = new Server(this.httpServer, this.logger)
+    const httpServer = this.httpServer = new HttpServer()
+    this.server = new Server({ httpServer })
   })
 
   afterEach(function () {

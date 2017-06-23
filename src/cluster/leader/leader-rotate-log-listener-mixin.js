@@ -1,23 +1,23 @@
 export default class LeaderRotateLogListenerMixin {
   static mix (superclass) {
     return class extends superclass {
-      constructor ({ sigusr2Listener }) {
+      constructor ({ sigusr2Listeners }) {
         super(...arguments)
-        this.sigusr2Listener = sigusr2Listener
+        this.sigusr2Listeners = sigusr2Listeners
       }
 
       async run () {
-        this.sigusr2Listener.listen(() => this.rotateLog())
+        this.sigusr2Listeners.listen(() => this.rotateLog())
         await super.run()
       }
 
       async close () {
-        this.sigusr2Listener.remove()
+        this.sigusr2Listeners.remove()
         await super.close()
       }
 
       async exit (failure = 0) {
-        this.sigusr2Listener.remove()
+        this.sigusr2Listeners.remove()
         await super.exit(failure)
       }
     }

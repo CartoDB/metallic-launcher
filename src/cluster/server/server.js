@@ -2,7 +2,7 @@ import Role, { SERVER } from '../role'
 import ClusterInterface from '../cluster-interface'
 
 export default class Server extends ClusterInterface {
-  constructor (httpServer) {
+  constructor ({ httpServer }) {
     super()
     this.httpServer = httpServer
   }

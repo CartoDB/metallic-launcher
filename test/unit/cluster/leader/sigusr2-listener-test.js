@@ -7,8 +7,8 @@ describe('sigusr2-listener', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create()
 
-    this.emitter = new EventEmitter()
-    this.sigusr2Listener = new Sigusr2Listener(this.emitter)
+    const emitter = this.emitter = new EventEmitter()
+    this.sigusr2Listener = new Sigusr2Listener({ emitter })
   })
 
   afterEach(function () {

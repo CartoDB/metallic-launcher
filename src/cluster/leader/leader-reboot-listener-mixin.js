@@ -1,23 +1,23 @@
 export default class LeaderRebootListenerMixin {
   static mix (superclass) {
     return class extends superclass {
-      constructor ({ rebootListeners }) {
+      constructor ({ sighupListeners }) {
         super(...arguments)
-        this.rebootListeners = rebootListeners
+        this.sighupListeners = sighupListeners
       }
 
       async run () {
-        this.rebootListeners.listen(() => this.reboot())
+        this.sighupListeners.listen(() => this.reboot())
         await super.run()
       }
 
       async close () {
-        this.rebootListeners.remove()
+        this.sighupListeners.remove()
         await super.close()
       }
 
       async exit (failure = 0) {
-        this.rebootListeners.remove()
+        this.sighupListeners.remove()
         await super.exit(failure)
       }
     }

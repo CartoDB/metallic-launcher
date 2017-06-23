@@ -7,8 +7,8 @@ describe('sigterm-listener', function () {
   beforeEach(function () {
     this.sandbox = sinon.sandbox.create()
 
-    this.emitter = new EventEmitter()
-    this.sighupListener = new SighupListener(this.emitter)
+    const emitter = this.emitter = new EventEmitter()
+    this.sighupListener = new SighupListener({ emitter })
   })
 
   afterEach(function () {
