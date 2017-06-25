@@ -1,5 +1,11 @@
 # Metallic Launcher ChangeLog
 
+## v0.7.0 (2017-mm-dd)
+
+ - Upgrade dependencies
+ - Pass arguments to constructors in one object
+
+
 ## v0.6.1 (2017-06-07)
 
  - Make all runner interface's implementations asyncrhonous
