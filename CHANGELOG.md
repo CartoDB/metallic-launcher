@@ -1,6 +1,6 @@
 # Metallic Launcher ChangeLog
 
-## v0.7.0 (2017-mm-dd)
+## v0.7.0 (2017-06-25)
 
  - Upgrade dependencies
  - Pass arguments to constructors in one object
