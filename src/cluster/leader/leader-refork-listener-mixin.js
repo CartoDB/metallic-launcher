@@ -8,7 +8,8 @@ export default class LeaderReforkListenerMixin {
 
       async run () {
         this.serverExitListeners.listen((server, code) => this.refork(server, code))
-        await super.run()
+        const httpServersInfo = await super.run()
+        return httpServersInfo
       }
 
       async close () {

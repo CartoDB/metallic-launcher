@@ -8,7 +8,8 @@ export default class LeaderRotateLogListenerMixin {
 
       async run () {
         this.sigusr2Listeners.listen(() => this.rotateLog())
-        await super.run()
+        const httpServersInfo = await super.run()
+        return httpServersInfo
       }
 
       async close () {

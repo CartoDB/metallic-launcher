@@ -1,5 +1,6 @@
 import Role, { SERVER } from '../role'
 import ClusterInterface from '../cluster-interface'
+import cluster from 'cluster'
 
 export default class Server extends ClusterInterface {
   constructor ({ httpServer }) {
@@ -17,7 +18,14 @@ export default class Server extends ClusterInterface {
 
   async run () {
     const httpServer = await this.httpServer.run()
-    return httpServer
+
+    const httpServerInfo = { [process.pid]: httpServer.address() }
+
+    if (cluster.isWorker) {
+      process.send(httpServerInfo)
+    }
+
+    return httpServerInfo
   }
 
   async close () {

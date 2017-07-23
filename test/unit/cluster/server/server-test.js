@@ -27,7 +27,9 @@ describe('worker', function () {
   })
 
   it('.run() should run server successfully', async function () {
-    const httpServerRunStub = this.sandbox.stub(this.httpServer, 'run').returns(Promise.resolve())
+    const httpServerRunStub = this.sandbox.stub(this.httpServer, 'run').returns(Promise.resolve({
+      address: () => {}
+    }))
 
     await this.server.run()
 

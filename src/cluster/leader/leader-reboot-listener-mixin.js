@@ -8,7 +8,8 @@ export default class LeaderRebootListenerMixin {
 
       async run () {
         this.sighupListeners.listen(() => this.reboot())
-        await super.run()
+        const httpServersInfo = await super.run()
+        return httpServersInfo
       }
 
       async close () {

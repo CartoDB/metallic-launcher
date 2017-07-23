@@ -11,8 +11,8 @@ export default class Launcher extends LauncherInterface {
   }
 
   async run () {
-    const httpServer = await this.target.run()
-    return httpServer
+    const httpServersInfo = await this.target.run()
+    return httpServersInfo
   }
 
   async close () {

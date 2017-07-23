@@ -27,7 +27,13 @@ describe('leader', function () {
   })
 
   it('.run() should create as many workers as CPUs there are in the machine', async function () {
-    const clusterForkStub = this.sandbox.stub(this.cluster, 'fork').returns(undefined)
+    const clusterForkStub = this.sandbox.stub(this.cluster, 'fork').returns({
+      on: (event, done) => {
+        if (event === 'message') {
+          done({ 'pid': { port: '9191' } })
+        }
+      }
+    })
 
     await this.leader.run()
 

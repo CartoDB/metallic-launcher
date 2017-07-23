@@ -7,6 +7,7 @@ export default class Leader extends LeaderInterface {
     super()
     this.cluster = cluster
     this.serverPoolSize = serverPoolSize
+    this.servers = []
   }
 
   static is (clusterOn) {
@@ -18,9 +19,22 @@ export default class Leader extends LeaderInterface {
   }
 
   async run () {
+    const workers = []
+
     for (let i = 0; i < this.serverPoolSize; i++) {
-      this.cluster.fork()
+      const worker = this.cluster.fork()
+      workers.push(new Promise(resolve => {
+        worker.on('message', httpServerInfo => {
+          resolve(httpServerInfo)
+        })
+      }))
     }
+
+    const httpServersInfo = await Promise.all(workers)
+
+    this.httpServersInfo = Object.assign({}, ...httpServersInfo)
+
+    return this.httpServersInfo
   }
 
   async close () {

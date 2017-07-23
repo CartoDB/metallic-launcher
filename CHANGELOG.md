@@ -1,5 +1,10 @@
 # Metallic Launcher ChangeLog
 
+## v0.8.0 (2017-mm-dd)
+
+ - At startup, retrive info about http-server's address, port, ...
+
+
 ## v0.7.0 (2017-06-25)
 
  - Upgrade dependencies
