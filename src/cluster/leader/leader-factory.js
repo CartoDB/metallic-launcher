@@ -14,13 +14,13 @@ export default class LeaderFactory extends FactoryInterface {
   static create ({ metrics, logger }) {
     const serverPoolSize = os.cpus().length
 
-    const LoggedSigusr2Listener = ListenerLoggerMixin.mix(Sigusr2Listener)
+    const LoggedSigusr2Listener = logger ? ListenerLoggerMixin.mix(Sigusr2Listener) : Sigusr2Listener
     const sigusr2Listeners = new LoggedSigusr2Listener({ logger, emitter: process })
 
-    const LoggedServerExitListener = ListenerLoggerMixin.mix(ServerExitListener)
+    const LoggedServerExitListener = logger ? ListenerLoggerMixin.mix(ServerExitListener) : ServerExitListener
     const serverExitListeners = new LoggedServerExitListener({ logger, emitter: process })
 
-    const LoggedSighupListener = ListenerLoggerMixin.mix(SighupListener)
+    const LoggedSighupListener = logger ? ListenerLoggerMixin.mix(SighupListener) : SighupListener
     const sighupListeners = new LoggedSighupListener({ logger, emitter: process })
 
     const LeaderOnSteroids = LeaderRebootListenerMixin.mix(
