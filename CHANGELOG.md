@@ -1,5 +1,10 @@
 # Metallic Launcher ChangeLog
 
+## v0.8.1 (2017-10-29)
+
+ - Fix leader creation when logger is not provided
+
+
 ## v0.8.0 (2017-07-23)
 
  - At startup, retrive info about http-server's address, port, ...
