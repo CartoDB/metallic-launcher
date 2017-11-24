@@ -8,7 +8,7 @@ import ClusterFactory from '../../../src/cluster'
 describe('cluster-factory', function () {
   it('.create() should return a Runner instance', function () {
     const logger = LoggerFactory.create({ options: { enabled: false } })
-    const metrics = MetricsFactory.create({ logger, options: { interval: 0 } })
+    const metrics = MetricsFactory.create({ logger })
     const httpServer = HttpServerFactory.create({ logger, metrics })
     const cluster = ClusterFactory.create({
       httpServer,

@@ -7,7 +7,7 @@ import LeaderFactory from '../../../../src/cluster/leader'
 describe('leader-factory', function () {
   it('.create() should return a Runner instance', function () {
     const logger = LoggerFactory.create({ options: { enabled: false } })
-    const metrics = MetricsFactory.create({ logger, options: { interval: 0 } })
+    const metrics = MetricsFactory.create({ logger })
 
     const leader = LeaderFactory.create({ metrics, logger })
 
