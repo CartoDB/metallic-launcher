@@ -1,4 +1,4 @@
-import { AbstractClassError, UnimplementedError } from 'metallic-errors'
+import { AbstractClassError } from 'metallic-errors'
 import { RunnerInterface } from 'metallic-interfaces'
 
 export default class LauncherInterface extends RunnerInterface {
@@ -7,9 +7,5 @@ export default class LauncherInterface extends RunnerInterface {
       throw new AbstractClassError(LauncherInterface.name)
     }
     super()
-  }
-
-  async close () {
-    throw new UnimplementedError()
   }
 }
