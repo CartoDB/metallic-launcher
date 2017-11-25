@@ -24,15 +24,13 @@ describe('unhandled-rejection-listener', function () {
     assert.ok(this.unhandledRejectionListener instanceof ListenerInterface)
   })
 
-  it('.listen() should attach listener to uncaughtException to emitter', function () {
+  it('.listen() should attach listener to unhandledRejection to emitter', function () {
     const handlerSpy = this.sandbox.spy()
-
-    var error = new Error('wadus error')
-    var rejectedPromise = Promise.reject(error)
+    const error = new Error('wadus error')
 
     this.unhandledRejectionListener.listen(handlerSpy)
-    this.emitter.emit('unhandledRejection', error, rejectedPromise)
+    this.emitter.emit('unhandledRejection', error)
 
-    assert.ok(handlerSpy.withArgs(error, rejectedPromise).calledOnce)
+    assert.ok(handlerSpy.withArgs(error).calledOnce)
   })
 })
