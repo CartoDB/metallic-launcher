@@ -46,6 +46,7 @@ export default class LauncherFactory extends FactoryInterface {
 
     return new LauncherOnSteroids({
       logger,
+      metrics,
       uncaughtExceptionListeners,
       exitSignalListeners,
       unhandledRejectionListeners,
