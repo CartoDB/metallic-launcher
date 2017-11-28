@@ -10,12 +10,7 @@ describe('cluster-factory', function () {
     const logger = LoggerFactory.create({})
     const metrics = MetricsFactory.create({ logger })
     const httpServer = HttpServerFactory.create({ logger, metrics })
-    const cluster = ClusterFactory.create({
-      httpServer,
-      metrics,
-      logger,
-      options: { enabled: false }
-    })
+    const cluster = ClusterFactory.create({ httpServer, metrics, logger })
 
     assert.ok(cluster instanceof RunnerInterface)
   })
