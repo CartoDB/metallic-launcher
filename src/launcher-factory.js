@@ -14,7 +14,7 @@ import LauncherLoggerMixin from './launcher-logger-mixin'
 import Launcher from './launcher'
 
 export default class LauncherFactory extends FactoryInterface {
-  static create ({ httpServer, metrics, logger, options }) {
+  static create ({ httpServer, metrics, logger, options } = {}) {
     const target = ClusterFactory.create({ httpServer, metrics, logger, options })
 
     const Sigint = logger ? ListenerLoggerMixin.mix(SigintListener) : SigintListener
