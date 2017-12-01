@@ -2,7 +2,7 @@ import { FactoryInterface } from 'metallic-interfaces'
 import Server from './server'
 
 export default class ServerFactory extends FactoryInterface {
-  static create ({ httpServer }) {
+  static create ({ httpServer } = {}) {
     return new Server({ httpServer })
   }
 
