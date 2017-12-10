@@ -1,5 +1,13 @@
 # Metallic Launcher ChangeLog
 
+## v0.10.0 (2017-12-10)
+
+ - Update devel deps:
+   + metallic-app: 0.10.0
+   + metallic-logger: 0.10.0
+   + metallic-metrics: 0.12.1
+
+
 ## v0.9.0 (2017-11-23)
 
  - Update deps:
