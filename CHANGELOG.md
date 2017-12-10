@@ -2,6 +2,12 @@
 
 ## v0.10.0 (2017-12-10)
 
+ - Ignore coverage folder while publishing
+ - Run metrics and logger while running launcher
+ - Close metrics and logger while closing launcher
+ - Improve test and build commands
+ - Use empty object as default argument for create method in factory
+ - Add travis support
  - Update devel deps:
    + metallic-app: 0.10.0
    + metallic-logger: 0.10.0
