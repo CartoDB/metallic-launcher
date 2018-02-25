@@ -1,5 +1,23 @@
 # Metallic Launcher ChangeLog
 
+## v0.11.0 (2018-02-25)
+
+ - Initialize and close logger in logger-mixin
+ - Implement metrics mixin for launcher
+ - Fix issue with mixins order, first log error on intialization and then exit
+ - Update deps:
+   + metallic-errors: 0.3.0
+   + metallic-listeners: 0.5.0
+ - Update devel deps:
+   + metallic-app: 0.10.1
+   + metallic-interfaces: 0.4.0
+   + metallic-logger: 0.11.1
+   + mocha: 5.0.1
+   + nyc: 11.4.1
+   + sinon: 4.4.2
+   + standard: 11.0.0
+
+
 ## v0.10.0 (2017-12-10)
 
  - Ignore coverage folder while publishing
