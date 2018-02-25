@@ -11,6 +11,7 @@ import LauncherUncaughtExceptionListenerMixin from './launcher-uncaught-exceptio
 import LauncherExitSignalListenerMixin from './launcher-exit-signal-listener-mixin'
 import LauncherUnhandledRejectionListenerMixin from './launcher-unhandled-rejection-listener-mixin'
 import LauncherLoggerMixin from './launcher-logger-mixin'
+import LauncherMetricsMixin from './launcher-metrics-mixin'
 import Launcher from './launcher'
 
 export default class LauncherFactory extends FactoryInterface {
@@ -32,19 +33,20 @@ export default class LauncherFactory extends FactoryInterface {
     const unhandledRejectionListeners = new Listeners()
       .add(new UnhandledRejection({ logger, emitter: process }))
 
-    const LoggedLauncher = logger ? LauncherLoggerMixin.mix(Launcher) : Launcher
+    let FeaturedLauncher = logger ? LauncherLoggerMixin.mix(Launcher) : Launcher
+    FeaturedLauncher = metrics ? LauncherMetricsMixin.mix(Launcher) : FeaturedLauncher
 
-    const EventedLoggedLauncher = LauncherExitOnErrorMixin.mix(
-      LauncherUncaughtExceptionListenerMixin.mix(
-        LauncherExitSignalListenerMixin.mix(
+    FeaturedLauncher = LauncherExitOnErrorMixin.mix(
+      LauncherExitSignalListenerMixin.mix(
+        LauncherUncaughtExceptionListenerMixin.mix(
           LauncherUnhandledRejectionListenerMixin.mix(
-            LoggedLauncher
+            FeaturedLauncher
           )
         )
       )
     )
 
-    return new EventedLoggedLauncher({
+    return new FeaturedLauncher({
       logger,
       metrics,
       uncaughtExceptionListeners,

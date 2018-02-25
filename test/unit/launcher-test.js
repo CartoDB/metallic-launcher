@@ -47,47 +47,39 @@ describe('launcher', function () {
 
   it('.run() should init successfully', async function () {
     const targetRunStub = this.sandbox.stub(this.target, 'run').returns(Promise.resolve())
-    const metricsRunStub = this.sandbox.stub(this.metrics, 'run').returns(Promise.resolve())
 
     await this.launcher.run()
 
     assert.ok(targetRunStub.calledOnce)
-    assert.ok(metricsRunStub.calledOnce)
   })
 
   it('.run() should throw error', async function () {
     const error = new Error('wadus')
-    const metricsRunStub = this.sandbox.stub(this.metrics, 'run').returns(Promise.resolve())
     const targetRunStub = this.sandbox.stub(this.target, 'run').returns(Promise.reject(error))
 
     try {
       await this.launcher.run()
     } catch (err) {
-      assert.ok(metricsRunStub.calledOnce)
       assert.ok(targetRunStub.calledOnce)
       assert.equal(err, error)
     }
   })
 
   it('.close() should stop successfully', async function () {
-    const metricsRunStub = this.sandbox.stub(this.metrics, 'close').returns(Promise.resolve())
     const targetRunStub = this.sandbox.stub(this.target, 'close').returns(Promise.resolve())
 
     await this.launcher.close()
 
-    assert.ok(metricsRunStub.calledOnce)
     assert.ok(targetRunStub.calledOnce)
   })
 
   it('.close() should throw error', async function () {
     const error = new Error('wadus')
-    const metricsRunStub = this.sandbox.stub(this.metrics, 'close').returns(Promise.resolve())
     const targetCloseStub = this.sandbox.stub(this.target, 'close').returns(Promise.reject(error))
 
     try {
       await this.launcher.close()
     } catch (err) {
-      assert.ok(metricsRunStub.calledOnce)
       assert.ok(targetCloseStub.calledOnce)
       assert.equal(err, error)
     }
