@@ -25,15 +25,18 @@ describe('launcher-logger-mixin', function () {
   })
 
   it('.run() should log when ready', async function () {
+    const loggerRunStub = this.sandbox.stub(this.logger, 'run')
     const loggerInfoStub = this.sandbox.stub(this.logger, 'info')
 
     await this.launcher.run()
 
+    assert.ok(loggerRunStub.calledOnce)
     assert.ok(loggerInfoStub.calledOnce)
   })
 
   it('.run() should log error when fails', async function () {
     const error = new Error('wadus')
+    const loggerRunStub = this.sandbox.stub(this.logger, 'run')
     const loggerInfoStub = this.sandbox.stub(this.logger, 'info').throws(error)
     const loggerErrorStub = this.sandbox.stub(this.logger, 'error')
 
@@ -41,6 +44,7 @@ describe('launcher-logger-mixin', function () {
       await this.launcher.run()
     } catch (err) {
       assert.equal(error, err)
+      assert.ok(loggerRunStub.calledOnce)
       assert.ok(loggerInfoStub.calledOnce)
       assert.ok(loggerErrorStub.calledOnce)
     }
@@ -48,10 +52,12 @@ describe('launcher-logger-mixin', function () {
 
   it('.close() should log when closed', async function () {
     const loggerInfoStub = this.sandbox.stub(this.logger, 'info')
+    const loggerCloseStub = this.sandbox.stub(this.logger, 'close')
 
     await this.launcher.close()
 
     assert.ok(loggerInfoStub.calledOnce)
+    assert.ok(loggerCloseStub.calledOnce)
   })
 
   it('.close() should log error when fails', async function () {

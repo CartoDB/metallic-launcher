@@ -8,6 +8,7 @@ export default class LauncherLoggerMixin {
 
       async run () {
         try {
+          await this.logger.run()
           const httpServer = await super.run()
           this.logger.info('Ready')
           return httpServer
@@ -21,6 +22,7 @@ export default class LauncherLoggerMixin {
         try {
           await super.close()
           this.logger.info('Closed')
+          await this.logger.close()
         } catch (err) {
           this.logger.error('Failed on close', err)
           throw err
